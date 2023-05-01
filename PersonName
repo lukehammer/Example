@@ -1,0 +1,43 @@
+public class PersonName
+{
+    public PersonName(string first, string last, string middle = null)
+    {
+        if (string.IsNullOrEmpty(first))
+            throw new ArgumentException("First name cannot be null or empty.", nameof(first));
+        if (string.IsNullOrEmpty(last))
+            throw new ArgumentException("Last name cannot be null or empty.", nameof(last));
+
+        First = first;
+        Last = last;
+        Middle = middle;
+    }
+
+    public string First { get; }
+    public string Last { get; }
+    public string Middle { get; }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        PersonName other = (PersonName)obj;
+        return First == other.First
+            && Last == other.Last
+            && Middle == other.Middle;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(First, Last, Middle);
+    }
+
+    public override string ToString()
+    {
+        return string.IsNullOrEmpty(Middle)
+            ? $"{First} {Last}"
+            : $"{First} {Middle} {Last}";
+    }
+}
